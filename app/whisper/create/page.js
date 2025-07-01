@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DefaultImageCarousel from '@/app/_components/DefaultImageCarousel';
+import WhisperCreatedModal from '@/app/_components/WhisperCreatedModal';
 import Header from '@/app/_components/Header';
 
 export default function CreateWhisper() {
@@ -12,30 +13,33 @@ export default function CreateWhisper() {
   const [defaultImages, setDefaultImages] = useState([]);
   const [selectedDefault, setSelectedDefault] = useState(null);
   const router = useRouter();
+  const [createdLink, setCreatedLink] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    fetch('http://localhost:3001/image')
-      .then((res) => res.json())
-      .then((data) => setDefaultImages(data));
-  }, []);
+useEffect(() => {
+  fetch('http://localhost:3001/image')
+    .then((res) => res.json())
+    .then((data) => setDefaultImages(data));
+}, []);
 
-  const handleCustomImage = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => setCustomImage(reader.result);
-    reader.readAsDataURL(file);
-  };
+const handleCustomImage = (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onloadend = () => setCustomImage(reader.result);
+  reader.readAsDataURL(file);
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const photo = customImage || selectedDefault?.data || null;
+  const photo = customImage || selectedDefault?.data || null;
 
-    if (!photo || !text.trim()) {
-      alert('É necessário ao menos uma imagem e uma mensagem.');
-      return;
-    }
+  if (!photo || !text.trim()) {
+    alert('É necessário ao menos uma imagem e uma mensagem.');
+    return;
+  }
 
+  try {
     const res = await fetch('http://localhost:3001/whisper', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,8 +47,15 @@ export default function CreateWhisper() {
     });
 
     const { id } = await res.json();
-    router.push(`/whisper/${id}`);
-  };
+
+    const fullLink = `${window.location.origin}/whisper/${id}`;
+    setCreatedLink(fullLink);
+    setIsModalOpen(true);
+  } catch (err) {
+    console.error('Erro ao criar whisper:', err);
+    alert('Houve um erro ao criar o whisper. Tente novamente.');
+  }
+};
 
   return (
     <>
@@ -119,16 +130,34 @@ export default function CreateWhisper() {
       />
     </div>
 
-
-
     {/* Botão */}
-    <button
+      <button
       type="submit"
-      className="bg-pink-600 hover:bg-pink-500 text-white px-6 py-2 rounded-md font-bold shadow-md transition"
+      className="relative group px-6 py-3 font-bold rounded-md text-white bg-pink-600 
+        hover:bg-purple-600 active:bg-blue-600
+        transition-all duration-300 tracking-wide border-2 border-pink-400 outline-none cursor-pointer
+        shadow-[0_0_8px_#f472b6,0_0_20px_#f472b6] 
+        hover:shadow-[0_0_12px_#a855f7,0_0_30px_#a855f7] 
+        active:shadow-[0_0_10px_#3b82f6,0_0_25px_#3b82f6] 
+        active:scale-95
+        before:absolute before:inset-0 before:rounded-md 
+        before:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] 
+        before:opacity-0 group-hover:before:opacity-100 
+        before:transition-opacity
+        after:absolute after:-inset-1 after:rounded-md 
+        after:animate-pulse after:bg-pink-500/20 after:z-[-1]"
+      style={{ fontFamily: '"Press Start 2P", monospace' }}
     >
-      Create Whisper 💌
+      Create Whisper
     </button>
   </form>
+
+  <WhisperCreatedModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  whisperLink={createdLink}
+/>
+
 </main>
     </>
   );

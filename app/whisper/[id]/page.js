@@ -60,18 +60,28 @@ export default function WhisperPage() {
             src={whisper.photo}
             alt="Whisper Image"
             className="w-60 h-60 object-contain cursor-pointer z-10"
-            initial={{ opacity: 1, scale: 1 }}
-            animate={{
-                scale: 1.08,
-                rotate: 2,
-                opacity: 1 // mantém sempre visível
-            }}
-            transition={{
-                duration: 1,
-                repeat: Infinity,
-                repeatType: 'mirror', // anima de ida e volta suavemente
-                ease: 'easeInOut'
-            }}
+            initial={{ opacity: 0, scale: 0.95 }}
+                animate={{
+                    opacity: 1,
+                    scale: [1, 1.08, 1],
+                    rotate: [0, 2, -2, 0]
+                }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{
+                    opacity: { duration: 0.4, ease: 'easeInOut' },
+                    scale: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    ease: 'easeInOut'
+                    },
+                    rotate: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    ease: 'easeInOut'
+                    }
+                }}
             onClick={handleImageClick}
             />
         )}
@@ -80,33 +90,40 @@ export default function WhisperPage() {
       {/* Whisper content */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            key="whisper"
-            className="text-center text-white px-8 max-w-xl z-10"
-            initial={{ opacity: 0, filter: 'blur(10px)', scale: 1.05 }}
-            animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
+         <motion.div
+        key="whisper"
+        className="absolute inset-0 flex flex-col items-center justify-center text-white px-6 z-10"
+        initial={{ opacity: 0, filter: 'blur(10px)', scale: 1.05 }}
+        animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+      >
+        <motion.p
+          className="text-base md:text-lg leading-relaxed text-justify mx-auto"
+          style={{
+            maxWidth: '60ch',
+            wordBreak: 'break-word',
+            textAlign: 'justify'
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {whisper.text}
+        </motion.p>
+
+        {whisper.creator && (
+          <motion.p
+            className="text-sm opacity-60 mt-4 text-center w-full"
+            style={{ maxWidth: '60ch' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
           >
-            <motion.p
-              className="text-lg leading-relaxed text-justify mx-auto"
-              style={{ maxWidth: '28ch', wordBreak: 'break-word' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {whisper.text}
-            </motion.p>
-            {whisper.creator && (
-              <motion.p
-                className="text-sm opacity-60 mt-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-              >
-                — {whisper.creator}
-              </motion.p>
-            )}
-          </motion.div>
+            — {whisper.creator}
+          </motion.p>
+        )}
+      </motion.div>
+
         )}
       </AnimatePresence>
     </div>
