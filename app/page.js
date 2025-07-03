@@ -80,20 +80,20 @@ export default function Home() {
 
     <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
     <WhisperPreview
-      image="/default1.png"
-      text="Mesmo em silêncio, você me diz tudo."
-      author="Anônimo"
+      image="/default3.png"
+      text="Não é gelada, mas foi feita no capricho. Abre aí."
+      author="Pint"
     />
     <WhisperPreview
       image="/default5.png"
-      text="Guardei esse sentimento só para você descobrir."
-      author="Camila R."
+      text="Guardei isso aqui onde só você saberia procurar."
+      author="Mary"
     />
     <WhisperPreview
-      image="/default3.png"
-      text="Às vezes um link diz mais que mil palavras."
-      author="J."
-    />
+    image="/default3.png"
+    text="Talvez eu não diga com frequência, mas isso aqui é só pra você."
+    author="J."
+  />
   </section>
     </main>
     <Footer/>

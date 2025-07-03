@@ -49,10 +49,28 @@ const handleSubmit = async (e) => {
 
   const photo = customImage || selectedDefault?.data || null;
 
-  if (!photo || !text.trim()) {
+if (!text.trim() && !photo) {
   setSystemMessage({
     open: true,
-    texto: 'The file is too large. The maximum allowed size is 15MB.',
+    texto: 'Please write a message and select an image before sending your Whisper.',
+    tipo: 'warning',
+  });
+  return;
+}
+
+if (!text.trim()) {
+  setSystemMessage({
+    open: true,
+    texto: 'Please write something before sending your Whisper.',
+    tipo: 'warning',
+  });
+  return;
+}
+
+if (!photo) {
+  setSystemMessage({
+    open: true,
+    texto: 'Please select an image before sending your Whisper.',
     tipo: 'warning',
   });
   return;
@@ -113,7 +131,6 @@ const handleSubmit = async (e) => {
       onChange={(e) => setText(e.target.value)}
       placeholder="Write your message..."
       className="w-full h-32 p-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 placeholder:text-zinc-400 resize-none focus:outline-none"
-      required
     />
 
     {/* Upload personalizado */}

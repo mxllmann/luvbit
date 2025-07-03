@@ -46,7 +46,7 @@ const topics = [
             rel="noopener noreferrer"
             className="text-pink-300 font-bold hover:underline"
           >
-            SHA-256-CBC algorithm
+            AES-256-CBC algorithm
           </a>{' '}
           before being stored.
         </p>

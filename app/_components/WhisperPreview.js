@@ -82,7 +82,7 @@ export default function WhisperPreview({ image, text, author }) {
         animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
         transition={{ duration: 1 }}
         >
-        <p className="text-sm leading-relaxed max-w-[28ch]">
+        <p className="text-sm leading-relaxed max-w-[28ch] text-justify">
             {text}
         </p>
         {author && (
