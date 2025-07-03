@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 
 export default function Header() {
+  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +16,7 @@ export default function Header() {
   const linkClasses = "px-3 py-1 rounded text-sm transition duration-200";
 
   return (
-    <header className="bg-black text-white px-6 py-4 flex items-center justify-between border-b border-gray-800 shadow-md z-50 relative">
+  <header className="fixed top-0 left-0 w-full z-50 bg-black text-white px-6 py-8 flex items-center justify-between border-b border-gray-800 shadow-md">
       {/* Logo e título */}
       <div className="flex items-center gap-4">
         <Link href="/">
@@ -41,33 +43,35 @@ export default function Header() {
           Home
         </Link>
 
-        <Link
-          href="/whisper/create"
-          className={`relative group px-3 py-1.5 text-sm font-medium rounded text-white bg-pink-600 
-            hover:bg-purple-600 active:bg-blue-600 
-            transition-all duration-300 tracking-normal border border-pink-400 cursor-pointer
-            shadow-[0_0_2px_#f472b6] 
-            hover:shadow-[0_0_4px_#a855f7] 
-            active:shadow-[0_0_4px_#3b82f6] 
-            active:scale-95
-            before:absolute before:inset-0 before:rounded 
-            before:shadow-[inset_0_0_8px_rgba(255,255,255,0.04)] 
-            before:opacity-0 group-hover:before:opacity-100 
-            before:transition-opacity
-            after:absolute after:-inset-1 after:rounded 
-            after:bg-pink-500/5 after:z-[-1]`}
-          style={{ fontFamily: '"VT323", monospace' }}
-        >
-          Criar Whispler
-        </Link>
+    <button
+      onClick={() => router.push('/whisper/create')}
+      data-state="default"
+      onMouseEnter={(e) => e.currentTarget.dataset.state = 'hover'}
+      onMouseLeave={(e) => e.currentTarget.dataset.state = 'default'}
+      onMouseDown={(e) => e.currentTarget.dataset.state = 'active'}
+      onMouseUp={(e) => e.currentTarget.dataset.state = 'hover'}
+      className="neon-button group px-3 py-1.5 text-xs font-bold rounded text-white bg-pink-600
+        border border-pink-400 outline-none cursor-pointer
+        transition-all duration-300 tracking-wider
+        hover:scale-105
+        hover:bg-purple-600
+        hover:border-purple-400
+        active:bg-blue-600
+        active:border-blue-400
+        active:scale-95"
+      style={{ fontFamily: '"Press Start 2P", monospace' }}
+    >
+      + Whisper
+    </button>
+
 
         <Link
-          href="/whisper"
+          href="/about"
           className={`${linkClasses} ${
             isActive('/whisper') ? 'text-pink-400 underline' : 'hover:text-pink-300'
           }`}
         >
-          Sobre
+          About
         </Link>
       </nav>
 
@@ -132,7 +136,7 @@ export default function Header() {
               <div className="border-t border-zinc-700 my-2 w-full" />
 
               <Link
-                href="/whisper"
+                href="/about"
                 onClick={() => setOpen(false)}
                 className="text-white hover:text-pink-300 px-4 py-1 text-center transition-all duration-200"
               >

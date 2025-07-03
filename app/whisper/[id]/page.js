@@ -14,7 +14,7 @@ export default function WhisperPage() {
   useEffect(() => {
     const fetchWhisper = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/whisper/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/whisper/${id}`);
         if (!res.ok) throw new Error('Whisper not found');
         const data = await res.json();
         setWhisper(data);

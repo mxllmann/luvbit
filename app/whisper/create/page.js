@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import DefaultImageCarousel from '@/app/_components/DefaultImageCarousel';
 import WhisperCreatedModal from '@/app/_components/WhisperCreatedModal';
 import Header from '@/app/_components/Header';
+import {motion} from 'framer-motion'
+import SystemMessageModal from '@/app/_components/SystemMessageModal';
 
 export default function CreateWhisper() {
   const [creator, setCreator] = useState('');
@@ -15,15 +17,28 @@ export default function CreateWhisper() {
   const router = useRouter();
   const [createdLink, setCreatedLink] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [systemMessage, setSystemMessage] = useState({ open: false, texto: '', tipo: 'aviso' });
+
 
 useEffect(() => {
-  fetch('http://localhost:3001/image')
+  fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/image`)
     .then((res) => res.json())
     .then((data) => setDefaultImages(data));
 }, []);
 
 const handleCustomImage = (e) => {
   const file = e.target.files[0];
+  const MAX_SIZE = 15 * 1024 * 1024; // 15 MB
+
+  if (file.size > MAX_SIZE) {
+   setSystemMessage({
+     open: true,
+    texto: 'The file is too Large. The biggest file size allowed is 15MB.',
+    tipo: 'warning'
+   });
+   return;
+ }
+
   const reader = new FileReader();
   reader.onloadend = () => setCustomImage(reader.result);
   reader.readAsDataURL(file);
@@ -35,12 +50,17 @@ const handleSubmit = async (e) => {
   const photo = customImage || selectedDefault?.data || null;
 
   if (!photo || !text.trim()) {
-    alert('É necessário ao menos uma imagem e uma mensagem.');
-    return;
-  }
+  setSystemMessage({
+    open: true,
+    texto: 'The file is too large. The maximum allowed size is 15MB.',
+    tipo: 'warning',
+  });
+  return;
+}
+
 
   try {
-    const res = await fetch('http://localhost:3001/whisper', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/whisper`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ creator, text, photo })
@@ -52,18 +72,27 @@ const handleSubmit = async (e) => {
     setCreatedLink(fullLink);
     setIsModalOpen(true);
   } catch (err) {
-    console.error('Erro ao criar whisper:', err);
-    alert('Houve um erro ao criar o whisper. Tente novamente.');
-  }
+      console.error('Erro ao criar whisper:', err);
+      setSystemMessage({
+        open: true,
+        texto: 'An error occurred while creating your Whisper. Please try again.',
+        tipo: 'error',
+      });
+      return;
+    }
+
 };
 
   return (
     <>
       <Header />
-      <main className="bg-black min-h-screen text-white flex items-start justify-center pt-12 px-4">
-  <form
+      <main className="pt-30 bg-black min-h-screen text-white flex items-start justify-center pt-12 px-4">
+  <motion.form
       onSubmit={handleSubmit}
-      className="relative w-full max-w-xl flex flex-col items-center gap-4 p-8 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 overflow-visible"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="relative mt-8 w-full max-w-xl flex flex-col items-center gap-4 p-8 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 overflow-visible"
     >
     <h1 className="text-2xl mb-2" style={{ fontFamily: '"Press Start 2P", monospace' }}>
       Create Your Whisper
@@ -92,6 +121,9 @@ const handleSubmit = async (e) => {
     <label className="w-full max-w-sm flex flex-col items-center justify-center bg-zinc-800 text-zinc-200 border border-zinc-600 rounded-md px-4 py-3 cursor-pointer hover:border-pink-500 transition">
       <span className="mb-1 text-sm font-medium">Select Image</span>
       <input type="file" accept="image/*" onChange={handleCustomImage} className="hidden" />
+      <p className="text-xs text-gray-400 mt-1">
+      Maximum allowed size is 15MB.
+    </p>
     </label>
 
     {/* Preview da imagem customizada */}
@@ -131,32 +163,43 @@ const handleSubmit = async (e) => {
     </div>
 
     {/* Botão */}
-      <button
-      type="submit"
-      className="relative group px-6 py-3 font-bold rounded-md text-white bg-pink-600 
-        hover:bg-purple-600 active:bg-blue-600
-        transition-all duration-300 tracking-wide border-2 border-pink-400 outline-none cursor-pointer
-        shadow-[0_0_8px_#f472b6,0_0_20px_#f472b6] 
-        hover:shadow-[0_0_12px_#a855f7,0_0_30px_#a855f7] 
-        active:shadow-[0_0_10px_#3b82f6,0_0_25px_#3b82f6] 
-        active:scale-95
-        before:absolute before:inset-0 before:rounded-md 
-        before:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] 
-        before:opacity-0 group-hover:before:opacity-100 
-        before:transition-opacity
-        after:absolute after:-inset-1 after:rounded-md 
-        after:animate-pulse after:bg-pink-500/20 after:z-[-1]"
-      style={{ fontFamily: '"Press Start 2P", monospace' }}
-    >
-      Create Whisper
-    </button>
-  </form>
+     <button
+        type="submit"
+        data-state="default"
+        onMouseEnter={(e) => e.currentTarget.dataset.state = 'hover'}
+        onMouseLeave={(e) => e.currentTarget.dataset.state = 'default'}
+        onMouseDown={(e) => e.currentTarget.dataset.state = 'active'}
+        onMouseUp={(e) => e.currentTarget.dataset.state = 'hover'}
+        className="neon-button group px-6 py-3 font-bold rounded-md text-white bg-pink-600
+          border-2 border-pink-400 outline-none cursor-pointer
+          transition-all dturation-400 tracking-wide
+          hover:scale-105
+           hover:bg-purple-600
+           hover:border-purple-400
+           active:bg-blue-600
+           active:border-blue-400
+          active:scale-95"
+        style={{ fontFamily: '"Press Start 2P", monospace' }}
+      >
+        Create Whisper
+      </button>
+
+  </motion.form>
 
   <WhisperCreatedModal
   isOpen={isModalOpen}
   onClose={() => setIsModalOpen(false)}
   whisperLink={createdLink}
-/>
+  />
+
+  
+  <SystemMessageModal
+  isOpen={systemMessage.open}
+  texto={systemMessage.texto}
+  tipo={systemMessage.tipo}
+  onClose={() => setSystemMessage({ ...systemMessage, open: false })}
+  />
+
 
 </main>
     </>

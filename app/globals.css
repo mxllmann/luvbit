@@ -24,3 +24,110 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@keyframes subtlePulsePink {
+  0%, 100% { box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899; }
+  50%     { box-shadow: 0 0 12px #ec4899, 0 0 24px #ec4899; }
+}
+@keyframes subtlePulsePurple {
+  0%, 100% { box-shadow: 0 0 8px #a855f7, 0 0 16px #a855f7; }
+  50%     { box-shadow: 0 0 12px #a855f7, 0 0 24px #a855f7; }
+}
+@keyframes subtlePulseBlue {
+  0%, 100% { box-shadow: 0 0 8px #3b82f6, 0 0 16px #3b82f6; }
+  50%     { box-shadow: 0 0 12px #3b82f6, 0 0 24px #3b82f6; }
+}
+
+.neon-button {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  /* garante que box-shadow “fade” entre cores e estados */
+}
+
+.neon-button::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  border-radius: inherit;
+  animation: rotateLight 4s linear infinite;
+  filter: blur(12px);
+  opacity: 0.7;
+  transition: background 0.4s ease-in-out;
+}
+
+/* sombra neon base */
+.neon-button[data-state="default"] {
+  box-shadow: 0 0 8px #ec4899, 0 0 20px #ec4899;
+}
+
+.neon-button[data-state="default"]::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #ec4899 60deg,
+    transparent 180deg,
+    #ec4899 300deg,
+    transparent 360deg
+  );
+}
+
+.neon-button[data-state="hover"] {
+  box-shadow: 0 0 10px #a855f7, 0 0 25px #a855f7;
+}
+
+.neon-button[data-state="hover"]::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #a855f7 60deg,
+    transparent 180deg,
+    #a855f7 300deg,
+    transparent 360deg
+  );
+}
+
+.neon-button[data-state="active"] {
+  box-shadow: 0 0 10px #3b82f6, 0 0 25px #3b82f6;
+}
+
+.neon-button[data-state="active"]::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #3b82f6 60deg,
+    transparent 180deg,
+    #3b82f6 300deg,
+    transparent 360deg
+  );
+}
+
+@keyframes rotateLight {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes neon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px #2bff00) drop-shadow(0 0 8px #2bff00);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #2bff00) drop-shadow(0 0 20px #2bff00);
+    transform: scale(1.05);
+  }
+}
+
+.neon-glow {
+  animation: neon-glow 2s infinite;
+}
+

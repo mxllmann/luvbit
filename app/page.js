@@ -1,16 +1,32 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import WhisperPreview from './_components/WhisperPreview';
+import { useEffect, useState } from 'react';
+import Header from './_components/Header';
+import Footer from './_components/Footer';
 
 export default function Home() {
+  const [showHeader, setShowHeader] = useState(false);
+   const router = useRouter();
+
+  useEffect(() => {
+  const handleScroll = () => {
+    setShowHeader(window.scrollY > 20);
+  };
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
   return (
     <>
-    <main className="min-h-screen flex flex-col items-center justify-center text-white text-center px-6 bg-black pt-60 sm:pt-0">
+    {/* {showHeader && <Header />} */}
+    <Header />
+    <main className="min-h-screen flex flex-col items-center justify-center text-white pt-18 text-center px-6 bg-black sm:pt-0">
       {/* Título */}
       <motion.h1
-        className="text-4xl md:text-6xl font-bold mb-4"
+        className="text-4xl md:text-6xl font-bold mb-4 mt-30"
         style={{ fontFamily: '"Press Start 2P", monospace' }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -27,8 +43,8 @@ export default function Home() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
     >
-      Mensagens pixeladas, sussurradas entre corações.<br />
-      Crie, compartilhe e emocione com estilo — onde cada link é um segredo revelado.
+      Pixelated whispers between hearts.<br />
+      Each link, a secret waiting to be uncovered.
     </motion.p>
 
 
@@ -38,25 +54,28 @@ export default function Home() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}
       >
-        <Link
-          href="/whisper/create"
-          className="relative group px-6 py-3 font-bold rounded-md text-white bg-pink-600 
-        hover:bg-purple-600 active:bg-blue-600
-        transition-all duration-300 tracking-wide border-2 border-pink-400 outline-none cursor-pointer
-        shadow-[0_0_8px_#f472b6,0_0_20px_#f472b6] 
-        hover:shadow-[0_0_12px_#a855f7,0_0_30px_#a855f7] 
-        active:shadow-[0_0_10px_#3b82f6,0_0_25px_#3b82f6] 
-        active:scale-95
-        before:absolute before:inset-0 before:rounded-md 
-        before:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] 
-        before:opacity-0 group-hover:before:opacity-100 
-        before:transition-opacity
-        after:absolute after:-inset-1 after:rounded-md 
-        after:animate-pulse after:bg-pink-500/20 after:z-[-1]"
-      style={{ fontFamily: '"Press Start 2P", monospace' }}
-        >
-          Criar seu Whisper
-        </Link>
+        
+       <button
+        onClick={() => router.push('/whisper/create')}
+        data-state="default"
+        onMouseEnter={(e) => e.currentTarget.dataset.state = 'hover'}
+        onMouseLeave={(e) => e.currentTarget.dataset.state = 'default'}
+        onMouseDown={(e) => e.currentTarget.dataset.state = 'active'}
+        onMouseUp={(e) => e.currentTarget.dataset.state = 'hover'}
+        className="neon-button group px-6 py-3 font-bold rounded-md text-white bg-pink-600
+          border-2 border-pink-400 outline-none cursor-pointer
+          transition-all duration-300 tracking-wide
+          hover:scale-105
+           hover:bg-purple-600
+           hover:border-purple-400
+           active:bg-blue-600
+           active:border-blue-400
+          active:scale-95"
+        style={{ fontFamily: '"Press Start 2P", monospace' }}
+      >
+        Create Your Whisper
+      </button>
+
       </motion.div>
 
     <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
@@ -76,8 +95,8 @@ export default function Home() {
       author="J."
     />
   </section>
-
     </main>
+    <Footer/>
     </>
   );
 }
