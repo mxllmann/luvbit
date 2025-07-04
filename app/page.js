@@ -80,7 +80,7 @@ export default function Home() {
 
     <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
     <WhisperPreview
-    image="/default3.png"
+    image="/default1.png"
     text="It’s not cold, but it was made with care. Go ahead, open it."
     author="Pint"
   />
