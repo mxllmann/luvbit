@@ -41,7 +41,7 @@ const topics = [
         <p>
           All submitted content (text, author, and image) is encrypted using the{' '}
           <a
-            href="https://stackoverflow.com/questions/1127878/is-sha256-considered-secure"
+            href="https://www.kiteworks.com/risk-compliance-glossary/aes-256-encryption/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-pink-300 font-bold hover:underline"
