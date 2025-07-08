@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, TransitionChild, DialogTitle, DialogPanel, TransitionRoot} from '@headlessui/react';
 import { Fragment } from 'react';
 import Image from 'next/image';
 import { warning } from 'framer-motion';
@@ -8,7 +8,7 @@ import { warning } from 'framer-motion';
 const iconMap = {
   success: '/icons/success.png',
   warning: '/icons/warning.png',
-  erro: '/icons/error.png',
+  error: '/icons/error.png',
 };
 
 const colorMap = {

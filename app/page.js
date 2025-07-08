@@ -8,23 +8,12 @@ import Header from './_components/Header';
 import Footer from './_components/Footer';
 
 export default function Home() {
-  const [showHeader, setShowHeader] = useState(false);
    const router = useRouter();
-
-  useEffect(() => {
-  const handleScroll = () => {
-    setShowHeader(window.scrollY > 20);
-  };
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
 
   return (
     <>
-    {/* {showHeader && <Header />} */}
     <Header />
     <main className="min-h-screen flex flex-col items-center justify-center text-white pt-18 text-center px-6 bg-black sm:pt-0">
-      {/* Título */}
       <motion.h1
         className="text-4xl md:text-6xl font-bold mb-4 mt-30"
         style={{ fontFamily: '"Press Start 2P", monospace' }}
@@ -35,7 +24,6 @@ export default function Home() {
         Welcome to <span className="text-pink-500">Luvbit</span>
       </motion.h1>
 
-      {/* Subtítulo */}
       <motion.p
       className="text-lg md:text-xl text-zinc-300 max-w-2xl mb-10  leading-relaxed"
       style={{ fontFamily: '"IBM Plex Mono", monospace' }}
@@ -48,7 +36,6 @@ export default function Home() {
     </motion.p>
 
 
-      {/* Botão CTA */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -80,17 +67,17 @@ export default function Home() {
 
     <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
     <WhisperPreview
-    image="/default1.png"
+    image="/cheers.png"
     text="It’s not cold, but it was made with care. Go ahead, open it."
     author="Pint"
   />
   <WhisperPreview
-    image="/default5.png"
+    image="/lock.png"
     text="I hid this where only you would know to look."
     author="Mary"
   />
   <WhisperPreview
-    image="/default3.png"
+    image="/heart.png"
     text="Maybe I don’t say it often, but this is just for you."
     author="J."
   />

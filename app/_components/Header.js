@@ -5,7 +5,7 @@ import { useState, Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 
 export default function Header() {
   const router = useRouter();
@@ -17,10 +17,9 @@ export default function Header() {
 
   return (
   <header className="fixed top-0 left-0 w-full z-50 bg-black text-white px-6 py-8 flex items-center justify-between border-b border-gray-800 shadow-md">
-      {/* Logo e título */}
       <div className="flex items-center gap-4">
         <Link href="/">
-          <Image src="/logo.png" alt="Luvbit Logo" width={40} height={40} />
+          <Image src="/icon.svg" alt="Luvbit Logo" width={40} height={40} />
         </Link>
         <Link
           href="/"
@@ -31,7 +30,6 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* Menu desktop */}
       <nav className="hidden md:flex gap-4 items-center">
 
         <Link
@@ -63,8 +61,6 @@ export default function Header() {
     >
       + Whisper
     </button>
-
-
         <Link
           href="/about"
           className={`${linkClasses} ${
@@ -75,7 +71,6 @@ export default function Header() {
         </Link>
       </nav>
 
-      {/* Menu mobile */}
       <button onClick={() => setIsOpen(true)} className="md:hidden focus:outline-none">
         <span className="block w-6 h-0.5 bg-white mb-1" />
         <span className="block w-6 h-0.5 bg-white mb-1" />

@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌌 Luvbit – Frontend
 
-## Getting Started
+**Luvbit** é uma interface web feita em **Next.js 15**, com estilo **retrô pixelado dark**, criada para permitir o envio de mensagens anônimas — os **Whispers**.  
+Os usuários podem criar, visualizar e compartilhar essas mensagens únicas com imagens personalizadas, animações suaves e uma proposta emocional e silenciosa.
 
-First, run the development server:
+🔗 Acesse em produção: [https://luvbit.vercel.app](https://luvbit.vercel.app)
+
+---
+
+## 🚀 Tecnologias
+
+- Next.js 15 (App Router)
+- React 19
+- Tailwind CSS 4
+- Framer Motion (animações)
+- Embla Carousel (carrossel de imagens)
+- React Icons
+- Copy to Clipboard
+
+---
+
+## 🛠️ Como rodar localmente
+
+### 1. Clonar o projeto
+
+```bash
+git clone https://github.com/seu-usuario/luvbit.git
+cd luvbit
+```
+
+### 2. Instalar Dependências 
+
+```bash
+npm install
+```
+### 3. Criar .env.local
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5001
+```
+
+### 3. Rodar em Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estrutura do Projeto
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```markdown
+app/
+├── _components/         # Componentes reutilizáveis
+│   ├── AboutCard.js
+│   ├── DefaultImageCarousel.js
+│   └── ...
+├── whisper/
+│   ├── [id]/page.js     # Página de visualização do whisper
+│   └── create/page.js   # Página de criação do whisper
+├── about/page.js        # Sobre o projeto
+├── page.js              # Página home
+├── layout.js            # Layout principal
+├── globals.css          # Estilos globais
+public/
+└── icons/               # Imagens e ícones usados no app
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 👨‍💻 Autor
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Projeto criado por **Arthur Mallmann**  
+🔗 [linkedin.com/in/arthurmallmann](https://www.linkedin.com/in/arthurmallmann/)

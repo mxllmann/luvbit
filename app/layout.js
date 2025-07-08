@@ -8,7 +8,10 @@ const vt323 = VT323({ weight: '400', subsets: ['latin'], variable: '--font-arcad
 
 export const metadata = {
   title: "Luvbit",
-  description: "Send Whispers to the ones ypu love",
+  description: "Send Whispers to the ones you love",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }) {

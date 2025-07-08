@@ -8,7 +8,7 @@ const topics = [
   {
     title: 'About Luvbit',
     color: 'text-pink-400',
-    image: '/default4.png',
+    image: '/icon.svg',
     content: (
       <>
         <p className="text-base text-zinc-400 italic">
@@ -19,8 +19,8 @@ const topics = [
   },
   {
     title: 'What is Luvbit?',
-    color: 'text-purple-400',
-    image: '/default3.png',
+    color: 'text-green-400',
+    image: '/plant.png',
     content: (
       <>
         <p>
@@ -34,8 +34,8 @@ const topics = [
   },
   {
     title: 'Privacy & Structure',
-    color: 'text-green-400',
-    image: '/default2.png',
+    color: 'text-yellow-400',
+    image: '/default5.png',
     content: (
       <>
         <p>
@@ -58,8 +58,8 @@ const topics = [
   },
   {
     title: 'Infrastructure',
-    color: 'text-blue-400',
-    image: '/default1.png',
+    color: 'text-blue-500',
+    image: '/struct.png',
     content: (
       <>
         <p>Luvbit is built with:</p>
