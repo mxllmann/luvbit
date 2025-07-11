@@ -35,7 +35,7 @@ const topics = [
   {
     title: 'Privacy & Structure',
     color: 'text-yellow-400',
-    image: '/default5.png',
+    image: '/lock.png',
     content: (
       <>
         <p>
